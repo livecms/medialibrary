@@ -1,0 +1,30 @@
+{
+    "name": "livecms/medialibrary",
+    "description": "Live CMS Media Library",
+    "homepage": "https://github.com/livecms/medialibrary",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mokhamad Rofiudin",
+            "email": "mokh.rofiudin@gmail.com"
+        }
+    ],
+    "require": {
+        "spatie/laravel-medialibrary": "^6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "LiveCMS\\MediaLibrary\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LiveCMS\\MediaLibrary\\MediaLibraryServiceProvider"
+            ],
+            "dont-discover": [
+                "spatie/laravel-medialibrary"
+            ]
+        }
+    }
+}
