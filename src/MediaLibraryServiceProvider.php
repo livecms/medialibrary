@@ -13,6 +13,10 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/medialibrary.php' => config_path('medialibrary.php'),
         ], 'config');
+
+        $this->publishes([
+            __DIR__.'/../assets' => public_path('vendor/midia'),
+        ], 'asset')
     }
 
     public function register()
