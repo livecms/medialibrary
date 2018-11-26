@@ -2,10 +2,12 @@
 
 namespace LiveCMS\MediaLibrary;
 
-use App\Services\Base\Model;
+use Illuminate\Database\Eloquent\Model;
 
-class File extends Model
+class File extends Model implements HasMediaLibrary
 {
+    use HasMediaLibraryTrait;
+
     protected $fillable = ['name', 'remote', 'remote_conversions'];
 
     public function media()

@@ -1,0 +1,57 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateMediaTable extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up()
+    {
+        Schema::create('files', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name', 255);
+            $table->text('remote')->nullable();
+            $table->text('remote_conversions')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('media', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->nullableMorphs('model');
+            $table->unsignedBigInteger('original_id')->nullable();
+            $table->unsignedBigInteger('file_id')->nullable();
+            $table->string('field')->nullable();
+            $table->string('collection_name');
+            $table->string('name');
+            $table->string('sha1_checksum')->index();
+            $table->string('file_name');
+            $table->string('mime_type')->nullable();
+            $table->string('disk');
+            $table->unsignedInteger('size')->index();
+            $table->json('manipulations');
+            $table->json('custom_properties');
+            $table->unsignedInteger('order_column')->nullable();
+            $table->nullableTimestamps();
+
+            $table->foreign('original_id')
+                  ->references('id')->on('media')
+                  ->onDelete('cascade');
+
+            $table->foreign('file_id')
+                  ->references('id')->on('files')
+                  ->onDelete('set null');
+        });
+    }
+    /**
+     * Reverse the migrations.
+     */
+    public function down()
+    {
+        Schema::dropIfExists('media');
+        Schema::dropIfExists('files');
+    }
+}

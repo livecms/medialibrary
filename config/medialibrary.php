@@ -6,7 +6,7 @@ return [
      * The filesystems on which to store added files and derived images by default. Choose
      * one or more of the filesystems you've configured in config/filesystems.php.
      */
-    'default_filesystem' => 's3',
+    'default_filesystem' => 'public',
 
     /*
      * The maximum file size of an item in bytes.
@@ -113,4 +113,16 @@ return [
      */
     'ffmpeg_binaries' => '/usr/bin/ffmpeg',
     'ffprobe_binaries' => '/usr/bin/ffprobe',
+
+
+    // Midia Route Prefix
+    'prefix_url' => env('MIDIA_PREFIX_URL', '/'),
+
+    // Conversion
+    'conversions' => [
+        'thumb' => [
+            'fit' => [\Spatie\Image\Manipulations::FIT_FILL, 320, 320],
+            'sharpen' => 10,
+        ],
+    ],
 ];

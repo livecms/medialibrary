@@ -99,6 +99,9 @@
         customUploadUrl: null,
         customRenameUrl: null,
         customDeleteUrl: null,
+        pluginUrl: null,
+        tinyMCEUrl: null,
+        summernoteMCEUrl: null,
     };
 
     function Midia(settings, $elem)
@@ -501,7 +504,7 @@
                     'X-CSRF-TOKEN': options.csrf_field
                 },
                 beforeSend: function() {
-                    $(myid + " .midia-files").append('<div class="midia-loading"><img src="'+options.base_url+'/vendor/midia/spinner.svg"><div>Please wait</div></div>');
+                    $(myid + " .midia-files").append('<div class="midia-loading"><img src="/vendor/midia/spinner.svg"><div>Please wait</div></div>');
                     $(myid + " #midia-loadmore").hide();
                     if(key) {
                         $(myid + " #midia-search").attr('disabled', true);

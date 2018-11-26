@@ -16,7 +16,7 @@ trait MediaLibraryConversionTrait
 
     public function registerMediaConversions(Media $media = null)
     {
-        $conversions = array_replace(config('services.medialibrary.conversions'), $this->getMediaConversions());
+        $conversions = array_replace(config('medialibrary.conversions'), $this->getMediaConversions());
 
         foreach ($conversions as $name => $manipulation) {
             $mediaConversion = $this->addMediaConversion($name);

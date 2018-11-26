@@ -5,6 +5,7 @@ namespace LiveCMS\MediaLibrary;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\HtmlString;
 
 class MediaLibraryController extends Controller
 {
@@ -13,6 +14,62 @@ class MediaLibraryController extends Controller
     public function __construct(MediaRepository $repository)
     {
         $this->baseRepository = $repository;
+    }
+
+    public function open(Request $request, $editor = null)
+    {
+        $csrf = csrf_token();
+        $baseUrl = LC_Route('index');
+        $dropzone = '';
+        if ($maxSizeFileConfig = config('medialibrary.max_file_size')) {
+            $size = $maxSizeFileConfig / (1024 * 1024);
+            $dropzone = "$.fn.midia.defaultSettings.dropzone.maxFilesize = '{}'";
+        }
+        return new HtmlString(<<<HTML
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="csrf-token" content="{$csrf}">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title></title>
+        <link rel="stylesheet" href="/vendor/midia/midia.css">
+        <link rel="stylesheet" href="/vendor/midia/dropzone.css">
+    </head>
+    <body>
+        <div id="midia-inline"></div>
+
+        <script src="/vendor/midia/jquery.js"></script>
+        <script src="/vendor/midia/dropzone.js"></script>
+        <script src="/vendor/midia/clipboard.js"></script>
+        <script src="/vendor/midia/midia.js"></script>
+        <script>
+            $.fn.midia.defaultSettings.identifier = 'identifier';
+            $.fn.midia.defaultSettings.customLoadUrl = function (limit, key) {
+                return '{$baseUrl}/media-library/image/get/' + limit + '?key=' + key;
+            }
+            $.fn.midia.defaultSettings.customUploadUrl = function () {
+                return '{$baseUrl}/media-library/image/upload';
+            }
+            $.fn.midia.defaultSettings.customRenameUrl = function (file) {
+                return '{$baseUrl}/media-library/image/' + file + '/rename';
+            }
+            $.fn.midia.defaultSettings.customDeleteUrl = function (file) {
+                return '{$baseUrl}/media-library/image/' + file + '/delete';
+            }
+
+            {$dropzone}
+
+            $("#midia-inline").midia({
+                inline: true,
+                base_url: '/',
+                editor: '{$editor}'
+            });
+        </script>
+    </body>
+</html>
+HTML
+    );
     }
 
     public function get(Request $request, $type, $page = 1)
@@ -24,7 +81,7 @@ class MediaLibraryController extends Controller
             $newItem = clone $item;
             $newItem = $newItem->toArray();
             $newItem['size'] = $item->human_readable_size;
-            $newItem['filetime'] = $item->created_at;
+            $newItem['filetime'] = $item->created_at->diffForHumans();
             $newItem['identifier'] = $item->id;
             return array_only($newItem, ['identifier', 'fullname', 'name', 'url', 'thumbnail', 'extension', 'size', 'filetime']);
         });

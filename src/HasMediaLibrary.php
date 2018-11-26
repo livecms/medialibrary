@@ -2,7 +2,9 @@
 
 namespace LiveCMS\MediaLibrary;
 
-interface HasMediaLibrary
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
+
+interface HasMediaLibrary extends HasMediaConversions
 {
     public function getMediaFields();
 
