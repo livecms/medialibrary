@@ -9,15 +9,39 @@ trait MediaLibraryConversionTrait
 {
     use HasMediaTrait;
 
-    public function getMediaConversions()
+    public function getMediaConversions($field = null)
     {
-        return $this->mediaConversionSettings ?? [];
+        $conversions = $field ? ($this->mediaConversionSettings[$field] ?? []) : [];
+
+        $converts = [];
+        foreach ($conversions as $key => $value) {
+            $name = $this->convertsConversionName($field, $key);
+            $converts[$name] = $value;
+        }
+
+        return $converts;
+    }
+
+    public function convertsConversionName($field, $key = '')
+    {
+        if ($key === '') {
+            return '';
+        }
+
+        $model = static::class;
+        $md5 = md5($model.'.'.$field);
+        return substr($md5, 0, 4).substr($md5, -4, 4).'.'.$key;
     }
 
     public function registerMediaConversions(Media $media = null)
     {
-        $conversions = array_replace(config('medialibrary.conversions'), $this->getMediaConversions());
-
+        $conversions = $media->field ? $media->conversions : null;
+        if (!$conversions || $media->field) {
+            $media->conversions = $conversions = array_replace($conversions ?? [], config('medialibrary.conversions'), $this->getMediaConversions($media->field));
+            if ($media->field) {
+                $media->save();
+            }
+        }
         foreach ($conversions as $name => $manipulation) {
             $mediaConversion = $this->addMediaConversion($name);
             foreach ($manipulation as $method => $arguments) {

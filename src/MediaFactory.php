@@ -50,7 +50,7 @@ class MediaFactory
                             'created_at' => $media->created_at,
                             'original_id' => $media->id,
                             'file_id' => $media->file_id,
-                            'field' => $key
+                            'field' => $key,
                         ], $properties);
 
             $newMedia = $media->replicate(['model_id', 'model_type']);

@@ -33,6 +33,7 @@ class CreateMediaTable extends Migration
             $table->string('disk');
             $table->unsignedInteger('size')->index();
             $table->json('manipulations');
+            $table->json('conversions')->nullable();
             $table->json('custom_properties');
             $table->unsignedInteger('order_column')->nullable();
             $table->nullableTimestamps();
