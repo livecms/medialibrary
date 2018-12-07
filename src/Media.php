@@ -37,7 +37,6 @@ class Media extends BaseMedia
                                 ? $this->model->convertsConversionName($this->field, $conversionName)
                                 : $conversionName
                             );
-        info('geturl '.$conversionName);
         return parent::getUrl($conversionName);
     }
 
