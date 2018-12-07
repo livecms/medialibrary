@@ -53,7 +53,6 @@ class Media extends BaseMedia
 
     public function getThumbnailAttribute()
     {
-        info('getThumbnailAttribute');
         return $this->getFullUrl('thumb');
     }
 
