@@ -59,7 +59,6 @@ trait HasMediaLibraryTrait
     public function toArray()
     {
         $result = parent::toArray();
-
         foreach ($this->getMediaFields() as $field) {
             $result[$field] = $this->getMediaData($field);
         }

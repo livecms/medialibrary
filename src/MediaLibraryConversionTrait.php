@@ -35,13 +35,17 @@ trait MediaLibraryConversionTrait
 
     public function registerMediaConversions(Media $media = null)
     {
-        $conversions = $media->field ? $media->conversions : null;
-        if (!$conversions || $media->field) {
-            $media->conversions = $conversions = array_replace($conversions ?? [], config('medialibrary.conversions'), $this->getMediaConversions($media->field));
-            if ($media->field) {
+        $conversions = $media->conversions ?? config('medialibrary.conversions', []);
+
+        if ($media->field && !$media->conversions) {
+            $cachedConversions = $media->conversions;
+            $conversions = array_replace($conversions, $this->getMediaConversions($media->field));
+            if ($cachedConversions != $conversions) {
+                $media->conversions = $conversions;
                 $media->save();
             }
         }
+
         foreach ($conversions as $name => $manipulation) {
             $mediaConversion = $this->addMediaConversion($name);
             foreach ($manipulation as $method => $arguments) {

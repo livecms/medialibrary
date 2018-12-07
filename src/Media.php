@@ -17,7 +17,7 @@ class Media extends BaseMedia
         'custom_properties' => 'array',
     ];
 
-    protected $appends = ['fullname', 'url', 'thumbnail', 'extension'];
+    protected $appends = ['thumbnail', 'extension'];
 
     /**
      * Get the url to a original media file.
@@ -31,12 +31,13 @@ class Media extends BaseMedia
     public function getUrl(string $conversionName = ''): string
     {
         $conversions = $this->conversions;
-        $conversionName = array_key_exists($conversionName, $conversions)
+        $conversionName = array_key_exists($conversionName, $conversions ?? [])
                             ? $conversionName
                             : ($this->field
                                 ? $this->model->convertsConversionName($this->field, $conversionName)
                                 : $conversionName
                             );
+        info('geturl '.$conversionName);
         return parent::getUrl($conversionName);
     }
 
@@ -52,6 +53,7 @@ class Media extends BaseMedia
 
     public function getThumbnailAttribute()
     {
+        info('getThumbnailAttribute');
         return $this->getFullUrl('thumb');
     }
 
