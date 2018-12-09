@@ -33,7 +33,7 @@ class Media extends BaseMedia
         $conversions = $this->conversions;
         $conversionName = array_key_exists($conversionName, $conversions ?? [])
                             ? $conversionName
-                            : ($this->field
+                            : ($this->field && $conversionName != ''
                                 ? $this->model->convertsConversionName($this->field, $conversionName)
                                 : $conversionName
                             );

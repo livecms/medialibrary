@@ -27,7 +27,7 @@ trait MediaLibraryTrait
                 }
             }
 
-            if (($libraryId = request()->get('selecting__'.$key, false)) !== false) {
+            if ($libraryId = request()->get('selecting__'.$key, false)) {
                 if ($media = $this->getMediaClass()->find($libraryId)) {
                     $newMedia = $this->cloneMedia($media, $model, $key, $oldMediaIds);
                     $medias[] = $newMedia;
@@ -93,7 +93,7 @@ trait MediaLibraryTrait
 
     public function deleteOldMedia(array $mediaIds  = [])
     {
-        return $this->getMediaClass()->whereIn('id', $mediaIds)->delete();
+        return count($mediaIds) ? $this->getMediaClass()->whereIn('id', $mediaIds)->delete() : true;
     }
 }
 

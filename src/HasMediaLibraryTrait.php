@@ -45,6 +45,16 @@ trait HasMediaLibraryTrait
         return !in_array($field, $this->getMultipleMediaFields()) ? $media->last() : $media;
     }
 
+    public function getMediaUrl($field, $conversionName = null)
+    {
+        return $this->getMediaData($field)->getUrl($conversionName ? $this->convertsConversionName($field, $conversionName) : '');
+    }
+
+    public function getMediaFullUrl($field, $conversionName = null)
+    {
+        return url($this->getMediaUrl($field, $conversionName));
+    }
+
     public function __get($name)
     {
         $imageMethod = Str::studly('get '.$name.' Image');

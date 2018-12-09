@@ -99,9 +99,6 @@
         customUploadUrl: null,
         customRenameUrl: null,
         customDeleteUrl: null,
-        pluginUrl: null,
-        tinyMCEUrl: null,
-        summernoteMCEUrl: null,
     };
 
     function Midia(settings, $elem)
@@ -135,6 +132,7 @@
             var elementBottom = elementTop + obj.outerHeight();
             var viewportTop = $(window).scrollTop();
             var viewportBottom = viewportTop + $(window).height();
+
             return elementBottom > viewportTop && elementTop < viewportBottom;
         },
 
@@ -495,7 +493,6 @@
 
             var loader = $(myid + " #midia-files-loader"),
                 key = $(myid + " #midia-search").val();
-
             $.ajax({
                 url: midia._createLoadUrl(limit, key),
                 type: options.load_ajax_type,
@@ -523,8 +520,10 @@
                 },
                 success: function(data) {
                     $(myid + " #midia-loadmore").show();
+
                     showing = midia.totalShows += data.files.length,
                     totalFiles = midia.totalFiles = data.total;
+                    allFiles = midia.allFiles = data.total_all;
 
                     midia._setCounter(showing, totalFiles);
 
@@ -563,10 +562,11 @@
         },
 
         _loadFilesWhenOnScreen: function () {
-            let id = this.id,
+            let midia = this,
+                id = this.id,
                 myid = '#' + id;
 
-            if (this._isInViewport($(myid + " #midia-loadmore")) && $(myid + " #midia-loadmore").css('display') != 'none') {
+            if (this._isInViewport($(myid + " #midia-loadmore")) && midia.totalShows < midia.allFiles) {
                 this._loadFiles();
             }
         },
