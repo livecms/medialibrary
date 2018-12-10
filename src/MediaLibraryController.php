@@ -77,6 +77,7 @@ HTML
         $perPage = 20;
         $keyword = $request->get('key');
         $medias = $this->baseRepository->get($type, $keyword, $page, $perPage);
+        $total = $this->baseRepository->count();
         $files = $medias->map(function ($item) {
             $newItem = clone $item;
             $newItem = $newItem->toArray();
@@ -86,7 +87,7 @@ HTML
             $newItem['identifier'] = $item->id;
             return array_only($newItem, ['identifier', 'fullname', 'name', 'url', 'thumbnail', 'extension', 'size', 'filetime']);
         });
-        $dir = ["files" => $files->toArray(), "total" => $medias->count(), "total_all" => $medias->total()];
+        $dir = ["files" => $files->toArray(), "total" => $medias->total(), "total_all" => $total];
         return Response::json($dir);;
     }
 

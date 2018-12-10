@@ -30,6 +30,11 @@ class MediaRepository extends BaseRepository
         return $this->model->find($id);
     }
 
+    public function count()
+    {
+        return $this->model->count();
+    }
+
     public function renameChildren(Media $media)
     {
         $tableName = $media->getTable();
