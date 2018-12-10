@@ -132,7 +132,6 @@
             var elementBottom = elementTop + obj.outerHeight();
             var viewportTop = $(window).scrollTop();
             var viewportBottom = viewportTop + $(window).height();
-
             return elementBottom > viewportTop && elementTop < viewportBottom;
         },
 
@@ -341,12 +340,16 @@
                 return false;
             });
 
-            $('.midia-wrapper').scroll(function () {
-                midia._loadFilesWhenOnScreen();
+            $(myid).scroll(function () {
+                if ($(this).css('display') != 'none') {
+                    midia._loadFilesWhenOnScreen();
+                }
             });
 
             $(window).on('resize scroll', function() {
-                midia._loadFilesWhenOnScreen();
+                if ($(myid).css('display') != 'none') {
+                    midia._loadFilesWhenOnScreen();
+                }
             });
 
             $(document).on("click", myid + " #midia-loadmore", function() {
@@ -493,6 +496,7 @@
 
             var loader = $(myid + " #midia-files-loader"),
                 key = $(myid + " #midia-search").val();
+
             $.ajax({
                 url: midia._createLoadUrl(limit, key),
                 type: options.load_ajax_type,
@@ -520,10 +524,8 @@
                 },
                 success: function(data) {
                     $(myid + " #midia-loadmore").show();
-
                     showing = midia.totalShows += data.files.length,
                     totalFiles = midia.totalFiles = data.total;
-                    allFiles = midia.allFiles = data.total_all;
 
                     midia._setCounter(showing, totalFiles);
 
@@ -562,11 +564,10 @@
         },
 
         _loadFilesWhenOnScreen: function () {
-            let midia = this,
-                id = this.id,
+            let id = this.id,
                 myid = '#' + id;
 
-            if (this._isInViewport($(myid + " #midia-loadmore")) && midia.totalShows < midia.allFiles) {
+            if (this._isInViewport($(myid + " #midia-loadmore")) && $(myid + " #midia-loadmore").css('display') != 'none') {
                 this._loadFiles();
             }
         },
