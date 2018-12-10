@@ -81,7 +81,6 @@ HTML
         $files = $medias->map(function ($item) {
             $newItem = clone $item;
             $newItem = $newItem->toArray();
-            $newItem['fullname'] = $item->file_name;
             $newItem['size'] = $item->human_readable_size;
             $newItem['filetime'] = $item->created_at->diffForHumans();
             $newItem['identifier'] = $item->id;

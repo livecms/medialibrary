@@ -17,7 +17,7 @@ class Media extends BaseMedia
         'custom_properties' => 'array',
     ];
 
-    protected $appends = ['thumbnail', 'extension'];
+    protected $appends = ['fullname', 'url', 'thumbnail', 'extension'];
 
     /**
      * Get the url to a original media file.
