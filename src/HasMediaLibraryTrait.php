@@ -47,7 +47,8 @@ trait HasMediaLibraryTrait
 
     public function getMediaUrl($field, $conversionName = null)
     {
-        return $this->getMediaData($field)->getUrl($conversionName ? $this->convertsConversionName($field, $conversionName) : '');
+        $media = $this->getMediaData($field);
+        return $media ? $media->getUrl($conversionName ? $this->convertsConversionName($field, $conversionName) : '') : null;
     }
 
     public function getMediaFullUrl($field, $conversionName = null)
