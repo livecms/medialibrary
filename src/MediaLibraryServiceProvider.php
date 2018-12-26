@@ -8,7 +8,6 @@ use Spatie\MediaLibrary\Commands\RegenerateCommand;
 use Spatie\MediaLibrary\Filesystem\DefaultFilesystem;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider as ServiceProvider;
-use Spatie\MediaLibrary\MediaObserver;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
