@@ -468,7 +468,7 @@
             file += "</div>";
             if (options.can_choose) {
                 file += "<div class='midia-floating'>";
-                file += "<a class='midia-btn midia-btn-colored midia-btn-shadow midia-pick'>Pick</a>";
+                file += "<button class='midia-btn midia-btn-colored midia-btn-shadow midia-pick'>Pick</button>";
                 file += "</div>";
             }
             file += "<div class='midia-item-inner"+(options.inline != true || (options.inline == true && options.editor != false) ? ' midia-choose' : '')+"'>";
